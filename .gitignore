@@ -64,6 +64,7 @@ contracts-exposed
 # Remix
 .deps/
 .states/
+cache/
 
 # Foundry
 /out
