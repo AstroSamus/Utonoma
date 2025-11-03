@@ -1,6 +1,6 @@
 import { createAppKit } from '@reown/appkit'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers'
-import { scrollSepolia, scroll } from '@reown/appkit/networks'
+import { networks } from 'config.env'
 import { BrowserProvider, Contract } from 'ethers'
 import { utonomaSepoliaAddress, utonomaABI } from '../utonomaSmartContract.js'
 
@@ -22,7 +22,7 @@ export async function useSignedProvider() {
     if(!modal) {
       modal = createAppKit({
         adapters: [new EthersAdapter()],
-        networks: [scrollSepolia, scroll],
+        networks,
         metadata,
         debug: true,
         projectId,
