@@ -1,19 +1,15 @@
 import { createAppKit } from '@reown/appkit'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers'
-import { networks } from 'config.env'
+import { 
+  networks,
+  appkitProjectId as projectId,
+  appkitMetadata as metadata
+} from 'config.env'
 import { BrowserProvider, Contract } from 'ethers'
 import { utonomaSepoliaAddress, utonomaABI } from '../utonomaSmartContract.js'
 
 let modal
 
-const projectId = '2897ca765c95a7e36410d31f88a6efee' //Id for the demo project
-
-const metadata = {
-  name: 'Demo Utonoma',
-  description: 'The demo version of social network of the web3 world',
-  url: 'https://demo.utonoma.com/', // url must match your domain & subdomain
-  icons: ['https://demo.utonoma.com/'] //set an icon
-}
 
 export async function useSignedProvider() {
   return new Promise((resolve) => {
