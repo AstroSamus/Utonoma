@@ -11,6 +11,7 @@ import { utonomaSepoliaAddress, utonomaABI } from '../utonomaSmartContract.js'
 export const appkit = {
   _modal: null,
   _isConnected: null,
+  _utonomaContractPromise: null,
 
   get modal() {
     if (!this._modal) {
@@ -33,6 +34,7 @@ export const appkit = {
       this._modal.subscribeProviders((state) => {
         this._isConnected = !!state["eip155"];
         console.log("Estado de conexión actualizado:", this._isConnected);
+        if (!this._isConnected) this._utonomaContract = null;
       });
     }
     return this._modal;
@@ -43,6 +45,20 @@ export const appkit = {
       return !!providers["eip155"];
     }
     return this._isConnected;
+  },
+  get utonomaContract() {
+    if (this._utonomaContractPromise) return this._utonomaContractPromise;
+
+    this._utonomaContractPromise = (async () => {
+      if (!this.isConnected) throw(new Error('User disconnected'));
+      const providers = this.modal.getProviders();
+      const eip155Provider = providers["eip155"];
+      if (!eip155Provider) throw(new Error("EIP-155 provider is not available"));
+      const ethProvider = new BrowserProvider(eip155Provider)
+      const ethSigner = await ethProvider.getSigner()
+      return new Contract(utonomaSepoliaAddress, utonomaABI, ethSigner)
+    })();
+    return this._utonomaContract;
   }
 };
 
