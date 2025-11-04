@@ -8,7 +8,44 @@ import {
 import { BrowserProvider, Contract } from 'ethers'
 import { utonomaSepoliaAddress, utonomaABI } from '../utonomaSmartContract.js'
 
-let modal
+export const appkit = {
+  _modal: null,
+  _isConnected: null,
+
+  get modal() {
+    if (!this._modal) {
+      console.log("Inicializando modal por primera vez...");
+      this._modal = createAppKit({
+        adapters: [new EthersAdapter()],
+        networks,
+        metadata,
+        debug: true,
+        projectId,
+        features: {
+          analytics: true,
+        },
+        tokens: {
+          "eip155:534351": { address: utonomaSepoliaAddress },
+        },
+        allWallets: "SHOW",
+      });
+
+      this._modal.subscribeProviders((state) => {
+        this._isConnected = !!state["eip155"];
+        console.log("Estado de conexión actualizado:", this._isConnected);
+      });
+    }
+    return this._modal;
+  },
+  get isConnected() {
+    if (this._isConnected === null) {
+      const providers = this.modal.getProviders();
+      return !!providers["eip155"];
+    }
+    return this._isConnected;
+  }
+};
+
 
 
 export async function useSignedProvider() {
