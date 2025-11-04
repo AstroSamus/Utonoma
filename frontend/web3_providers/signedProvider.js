@@ -8,6 +8,14 @@ import {
 import { BrowserProvider, Contract } from 'ethers'
 import { utonomaSepoliaAddress, utonomaABI } from '../utonomaSmartContract.js'
 
+/**
+ * Lazy-initialized AppKit singleton with connection state and contract access.
+ *
+ * @namespace appkit
+ * @property {import('@reown/appkit').AppKit} modal - Singleton AppKit instance returned by `createAppKit()`.
+ * @property {boolean} isConnected - Whether a wallet is currently connected.
+ * @property {Promise<import('ethers').Contract>} utonomaContract - Promise resolving to the Utonoma contract instance.
+ */
 export const appkit = {
   _modal: null,
   _isConnected: null,
@@ -46,6 +54,14 @@ export const appkit = {
     }
     return this._isConnected;
   },
+
+  /**
+   * Returns a Promise that resolves to the Utonoma contract instance.
+   * If the user is not connected, the Promise rejects with an Error.
+   *
+   * @returns {Promise<import('ethers').Contract>} Contract instance connected to the user's signer.
+   * @throws {Error} When the user is disconnected or the EIP-155 provider is not available.
+   */
   get utonomaContract() {
     if (this._utonomaContractPromise) return this._utonomaContractPromise;
 
