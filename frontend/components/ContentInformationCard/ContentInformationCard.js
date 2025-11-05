@@ -18,8 +18,8 @@ export const ContentInformationCard = (
     $template.querySelector('.Card__actionButton').addEventListener('click', async(e) => {
       const $container = e.target.closest('.Card__container')
       try {
-        const { useUtonomaContractForSignedTransactions } = await import('../../web3_providers/signedProvider.js')
-        const { utonomaContractForSignedTransactions } = await useUtonomaContractForSignedTransactions()
+        const { appkit } = await import('../../web3_providers/signedProvider.js')
+        const utonomaContractForSignedTransactions = await appkit.utonomaContract
         alertCashRewardRequest($container)
         const harvestLikesReq = await utonomaContractForSignedTransactions.harvestLikes([identifierIndex, identifierContentType])
         alertCashRewardSent($container)

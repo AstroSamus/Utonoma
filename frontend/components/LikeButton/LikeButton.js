@@ -1,7 +1,7 @@
 import { ConfirmLikeOrDislike as ConfirmLikeOrDislikeFactory } from '../modals/ConfirmLikeOrDislike/ConfirmLikeOrDislike.js'
 import { readOnlyProvider } from "../../web3_providers/readOnlyProvider.js"
 import { formatUnits } from 'ethers'
-import { useUtonomaContractForSignedTransactions } from '../../web3_providers/signedProvider.js'
+import { appkit } from '../../web3_providers/signedProvider.js'
 
 export const ACTIONS = {
   waiting: 'waiting',
@@ -97,8 +97,8 @@ export const LikeButton = ($container) => {
   const actions = {
     checkingIfUserIsConnected: async () => {
       if(!modal) {
-          const { useSignedProvider } = await import('../../web3_providers/signedProvider.js')
-          const { modal: modalInstance } = await useSignedProvider()
+          const { appkit } = await import('../../web3_providers/signedProvider.js')
+          const modalInstance = appkit.modal
           modal = modalInstance
       }
       if(modal.getIsConnectedState()) {
@@ -132,7 +132,7 @@ export const LikeButton = ($container) => {
     waitingForApproveOnWallet: async () => {
       try {
         $dialogCheckWalletToApprove.showModal()
-        const { utonomaContractForSignedTransactions } = await useUtonomaContractForSignedTransactions()
+        const utonomaContractForSignedTransactions = await appkit.utonomaContract
         likeResult = await utonomaContractForSignedTransactions.like([state.utonomaIdentifier.index, state.utonomaIdentifier.contentType])
         state.currentAction = { value: ACTIONS.waitingForBlockchainResult, payload: likeResult }
       } catch(error) {

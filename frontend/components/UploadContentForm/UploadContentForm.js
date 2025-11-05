@@ -1,6 +1,6 @@
 import { ShortVideoMetadata } from '../../services/models.js'
 import { convertIPFSHashToBytes32 } from '../../utils/encodingUtils/encodingUtils.js'
-import { useSignedProvider, useUtonomaContractForSignedTransactions } from '../../web3_providers/signedProvider.js'
+import { appkit } from '../../web3_providers/signedProvider.js'
 import { validateVideoDuration } from '../../utils/validationUtils/validationUtils.js'
 import { pinJsonToIpfs, pinFileToIPFS } from '../../services/ipfsService/ipfsService.js'
 import { createStateForUploadContentForm } from './UploadContentForm.state.js'
@@ -46,7 +46,7 @@ export const UploadContentForm = ($container) => {
         }
         break
       case state.availiableStates.checkingIfUserIsConnected:
-        const { modal } = await useSignedProvider()
+        const modal = appkit.modal
         if(!modal.getIsConnectedState()) state.setState(state.availiableStates.userDisconnectedError, effects)
         else state.setState(state.availiableStates.uploadingToIpfs, effects)
         break
@@ -66,7 +66,7 @@ export const UploadContentForm = ($container) => {
       case state.availiableStates.uploadingToUtonoma:
         try {
           $dialogCheckWalletToApprove.showModal()
-          const { utonomaContractForSignedTransactions } = await useUtonomaContractForSignedTransactions()
+          const utonomaContractForSignedTransactions = await appkit.utonomaContract
           uploadResponse = await utonomaContractForSignedTransactions.upload(
             convertIPFSHashToBytes32(shortVideoHash.IpfsHash), 
             convertIPFSHashToBytes32(metadataHash.IpfsHash), 

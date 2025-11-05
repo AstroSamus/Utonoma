@@ -13,8 +13,8 @@ const $buttonBuySellTokens = document.querySelector('#buttonBuySellTokens')
 
 $buttonManageAccount.addEventListener('click', async () => {
   $buttonManageAccount.disabled = true
-  const { useSignedProvider } = await import('../../../web3_providers/signedProvider.js')
-  const { modal } = await useSignedProvider()
+  const { appkit } = await import('../../../web3_providers/signedProvider.js')
+  const modal = appkit.modal
   modal.subscribeState(async(newState) => {
     const isLoggedIn = modal.getIsConnectedState()
     if(isLoggedIn) {
@@ -43,8 +43,8 @@ $buttonDialogAddTokenAutomatically.addEventListener('click' , async() => {
     sepoliaTokenSymbol,
     tokenDecimals
   } = await import('../../../utonomaSmartContract.js')
-  const { useUtonomaContractForSignedTransactions } = await import('../../../web3_providers/signedProvider.js')
-  const { walletProvider } = await useUtonomaContractForSignedTransactions()
+  const { appkit } = await import('../../../web3_providers/signedProvider.js')
+  const walletProvider = await appkit.utonomaContract
   console.log(walletProvider)
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
