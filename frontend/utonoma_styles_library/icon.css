@@ -1,8 +1,0 @@
-.Icon--small {
-  width: 2rem; 
-  height: 2rem
-}
-
-.Icon--shaded {
-  filter: drop-shadow(0px 2px 4px var(--pirateBlack));
-}

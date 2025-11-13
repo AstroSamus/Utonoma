@@ -1,7 +1,0 @@
-.Text--shaded {
-  text-shadow: 
-    6px 0 8px var(--pirateBlack), 
-    0 6px 8px var(--pirateBlack), 
-    -6px 0 8px var(--pirateBlack)
-  ;
-}
