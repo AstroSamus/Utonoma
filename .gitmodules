@@ -1,0 +1,6 @@
+[submodule "smart-contracts"]
+	path = smart-contracts
+	url = https://github.com/AstroSamus/utonoma-smart-contracts
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/AstroSamus/utonoma-frontend
