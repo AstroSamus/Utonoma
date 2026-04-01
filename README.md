@@ -32,4 +32,4 @@ The twist?
 ## 📖 Whitepaper
 
 The full incentive model and technical details are described in the whitepaper:  
-👉 [Utonoma Whitepaper (English)](https://blog.utonoma.com/wp-content/uploads/2024/04/utonoma_en.pdf)
+👉 [Utonoma Whitepaper (English)](https://utonoma.com/white-paper)
